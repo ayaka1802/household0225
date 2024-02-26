@@ -15,42 +15,33 @@ with tab1:
     # データの追加
     today = datetime.datetime.now()
     date = st.date_input("日付：", today)
-    col1,col2,col3 = st.columns(3)
+    col1,col2= st.columns(2)
 
     kind1 = col1.selectbox(
-    "大分類：",
+    "費目1：",
     ("ふたり費", "あやたん費", "だいすけ費")
     )
     
 
+    kind2_taple=()
+    if kind1=='ふたり費' :
+        kind2_taple=('家賃','電気','ガス','水道','おそとあそび費','おうちあそび費','外食費','カフェ費','日用品費','スーパー費','コンビニ費')
+    elif kind1 in('あやたん費','だいすけ費') :
+        kind2_taple=('通信費','ひとりごはん費','交通費','服費','美容費','勉強費','必須費','娯楽費','積立NISA')
     kind2 = col2.selectbox(
-    "中分類：",
-    ("固定費", "変動費")
+    "費目2：",
+    kind2_taple
     )
-    kind3_taple=()
-    if kind1=='ふたり費' and kind2=='固定費':
-        kind3_taple=('家賃','電気','ガス','水道')
-    elif kind1=='ふたり費' and kind2=='変動費':
-        kind3_taple=('おそとあそび費','おうちあそび費','外食費','カフェ費','日用品費','スーパー費','コンビニ費')
-    elif kind1 in('あやたん費','だいすけ費') and kind2=='固定費':
-        kind3_taple=('通信費','その他')
-    elif kind1 in('あやたん費','だいすけ費') and kind2=='変動費':
-        kind3_taple=('ひとりごはん費','交通費','服費','美容費','勉強費','必須費','娯楽費','積立NISA')
-    kind3 = col3.selectbox(
-    "小分類：",
-    kind3_taple
-    )
-    name = st.text_input('詳細名：')
-    col4,col5=st.columns(2)
-    person =col4.radio('払った人：',('あやたん','だいすけ'),horizontal=True)
+    
+    person =col1.radio('払った人：',('あやたん','だいすけ'),horizontal=True)
 
-    pay_option = col5.selectbox(
+    pay_option = col2.selectbox(
         '支払い方法：',
         ('カード','現金','ポイント','PayPay'))
-    
+    name = st.text_input('詳細名：')
     money = st.number_input('金額：',0)
     if st.button('支出追加',type="primary"):
-        data.add_data(date, kind1, kind2, kind3, name, person, pay_option, money)
+        data.add_data(date, kind1, kind2, name, person, pay_option, money)
 
 
 with tab2:
@@ -63,32 +54,40 @@ with tab2:
     memo = st.text_area('メモ：')
     in_money = st.number_input('金額',0)
     if st.button('収入追加',type="primary"):
-        data.add_data(date, kind1, kind2, kind3, name, person, pay_option, money)
+        data.add_data(date, kind1, kind2, name, person, pay_option, money)
 
 
 with tab3:
     st.write('### 一覧表')
+    search_all = st.multiselect('分類名',
+                                ['家賃','電気','ガス','水道',
+                                 'おそとあそび費','おうちあそび費','外食費',
+                                 'カフェ費','日用品費','スーパー費','コンビニ費',
+                                 '通信費','ひとりごはん費','交通費',
+                                 '服費','美容費','勉強費','必須費','娯楽費','積立NISA'],
+                                 default='家賃')
     df = data.show_all_data()
+    df = df[(df["費目2"].isin(search_all))]
     st.dataframe(df,use_container_width=True, hide_index=True)
 
 with tab4:
     st.write('### 分析')
     #年月、費目別の表
     df = data.show_sum_data()
-    df = df.pivot_table(index=['大分類', '中分類', '小分類'], columns='年月', values='金額', aggfunc='first')
+    df = df.pivot_table(index=['費目1', '費目2'], columns='年月', values='金額', aggfunc='first')
     df = df.fillna(0)
     st.write('ふたり費')
-    df_two = df.loc[df.index.get_level_values('大分類') == 'ふたり費']
-    df_two.reset_index(level='大分類', inplace=True)
-    df_two = df_two.drop(columns=['大分類'])
+    df_two = df.loc[df.index.get_level_values('費目1') == 'ふたり費']
+    df_two.reset_index(level='費目1', inplace=True)
+    df_two = df_two.drop(columns=['費目1'])
     st.dataframe(df_two,use_container_width=True)
     st.write('あやたん費')
-    df_aya = df.loc[df.index.get_level_values('大分類') == 'あやたん費']
-    df_aya.reset_index(level='大分類', inplace=True)
-    df_aya = df_aya.drop(columns=['大分類'])
+    df_aya = df.loc[df.index.get_level_values('費目1') == 'あやたん費']
+    df_aya.reset_index(level='費目1', inplace=True)
+    df_aya = df_aya.drop(columns=['費目1'])
     st.dataframe(df_aya,use_container_width=True)
     st.write('だいすけ費')
-    df_dai = df.loc[df.index.get_level_values('大分類') == 'だいすけ費']
-    df_dai.reset_index(level='大分類', inplace=True)
-    df_dai = df_dai.drop(columns=['大分類'])
+    df_dai = df.loc[df.index.get_level_values('費目1') == 'だいすけ費']
+    df_dai.reset_index(level='費目1', inplace=True)
+    df_dai = df_dai.drop(columns=['費目1'])
     st.dataframe(df_dai,use_container_width=True)
