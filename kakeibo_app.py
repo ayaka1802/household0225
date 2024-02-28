@@ -105,6 +105,7 @@ with tab4:
     ).properties(
     width=500
     )
+    chart = chart.configure_legend(orient='bottom')
     st.altair_chart(chart,use_container_width=True)
 
     
