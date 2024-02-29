@@ -9,5 +9,7 @@ def llm_response(chat_history):
                  "んも！しょうがない子だね",
                  "あいたんってー、かわいい。",
                  "ちょこたびたい",
-                 "ぽれろ！"]
+                 "ぽれろ！",
+                 "まねしたね？",
+                 "まあいけど、、"]
     return random.choice(responses)
