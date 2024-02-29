@@ -9,7 +9,7 @@ st.title('家計簿アプリ')
 if st.session_state.get("chat_messages") is None:
     st.session_state["chat_messages"] = []
 
-st.subheader("あやたんとおしゃべりのコーナー")
+st.write("### おしゃべりのコーナー")
 
 for message in st.session_state["chat_messages"]:
     st.chat_message(message["role"]).write(message["content"])
