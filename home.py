@@ -6,8 +6,6 @@ st.markdown(const.HIDE_ST_STYLE, unsafe_allow_html=True)
 ##selected = option_menu(**const.OPTION_MENU_CONFIG)
 
 st.title('家計簿アプリ')
-st.write('サイドバーからやりたいやつ選んでね！')
-
 if st.session_state.get("chat_messages") is None:
     st.session_state["chat_messages"] = []
 
@@ -16,7 +14,7 @@ st.subheader("あやたんとおしゃべりのコーナー")
 for message in st.session_state["chat_messages"]:
     st.chat_message(message["role"]).write(message["content"])
 
-if message := st.chat_input():
+if message := st.chat_input("ここにかいてね"):
     st.chat_message("user").write(message)
     st.session_state["chat_messages"].append({"role": "user", "content": message})
 
