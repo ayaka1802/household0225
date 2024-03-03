@@ -1,5 +1,5 @@
 import random
-def llm_response(chat_history):
+def aya_response(chat_history):
     responses = ["あいたんです！",
                  "えへえへ",
                  "あのねあいたんねえっとね",
@@ -12,4 +12,23 @@ def llm_response(chat_history):
                  "ぽれろ！",
                  "まねしたね？",
                  "まあいけど、、"]
+    return random.choice(responses)
+
+def dai_response(chat_history):
+    responses = ["だいしけです！",
+                "あいたんあそぼ",
+                "将棋はプログラミングだから",
+                "まあそれもプログラミングだよね",
+                "それはプログラミングじゃなくない？",
+                "まねしてないよ",
+                "ぽわぽわ",
+                "おでんぴよ",
+                "もいもい！",
+                "てぃろりんやだ",
+                "はっぴーはっぴはっぴー！！！",
+                "電車乗り過ごしちゃったぁ",
+                "おばか",
+                "もっけー！"
+                "あやたんだいすき！",
+                "かわいいね"]
     return random.choice(responses)
