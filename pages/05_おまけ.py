@@ -11,7 +11,6 @@ person = st.radio(
     "誰とおしゃべりする？",
     ["あやたん", "だいすけ"]
 )
-st.write(person)
 USER_NAME = "user"
 AYA_NAME = "ayatan"
 DAI_NAME = "daisuke"
