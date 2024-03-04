@@ -7,7 +7,7 @@ import numpy as np
 # conn = sqlite3.connect('test.db')
 # c = conn.cursor()
 
-# データを追加する
+# 支出データを追加する
 def add_data(date, kind1, kind2, name, person, pay_option, money):
     # データベースに接続する
     conn = sqlite3.connect('test.db')
@@ -22,6 +22,20 @@ def add_data(date, kind1, kind2, name, person, pay_option, money):
     # データベースをクローズする
     conn.close()
 
+#収入データを追加する
+def add_income(ymdate,person,type,memo,money):
+    # データベースに接続する
+    conn = sqlite3.connect('test.db')
+    c = conn.cursor()
+    # データベースにテーブルを作成する
+    c.execute('CREATE TABLE IF NOT EXISTS income_test (id INTEGER PRIMARY KEY AUTOINCREMENT, ymdate TEXT, person TEXT, type TEXT, memo TEXT, money INTEGER)')
+    #INSERT
+    c.execute('INSERT INTO income_test (ymdate,person,type,memo,money) VALUES (?, ?, ?, ?, ?)', (ymdate,person,type,memo,money))
+    conn.commit()
+    st.balloons()
+    st.write('データが追加されました。')
+    # データベースをクローズする
+    conn.close()
 
 # 全てのデータを表示する
 def show_all_data():
@@ -38,6 +52,7 @@ def show_all_data():
 
     return df
 
+#費目ごとの合計を表示する
 def show_sum_data():
     # データベースに接続する
     conn = sqlite3.connect('test.db')

@@ -13,4 +13,4 @@ type = col2_2.selectbox('分類:',('給料','贈与'))
 memo = st.text_area('メモ：')
 in_money = st.number_input('金額',0)
 if st.button('収入追加',type="primary"):
-    data.add_data()
+    data.add_income(income_date,income_person,type,memo,in_money)
