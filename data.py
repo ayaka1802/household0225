@@ -37,6 +37,8 @@ def add_income(ymdate,person,type,memo,money):
     # データベースをクローズする
     conn.close()
 
+
+
 # 全てのデータを表示する
 def show_all_data():
     # データベースに接続する
