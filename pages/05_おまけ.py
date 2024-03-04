@@ -14,7 +14,7 @@ person = st.radio(
 USER_NAME = "user"
 AYA_NAME = "ayatan"
 DAI_NAME = "daisuke"
-avator_img_dict = {
+avatar_img_dict = {
     AYA_NAME: "👧",
     DAI_NAME: "🐤"
 }
@@ -22,7 +22,8 @@ if st.session_state.get("chat_messages") is None:
     st.session_state["chat_messages"] = []
 
 for message in st.session_state["chat_messages"]:
-    st.chat_message(message["name"]).write(message["content"])
+    avatar = avatar_img_dict.get(message["name"], None)
+    st.chat_message(message["name"],avatar=avatar).write(message["content"])
 
 if message := st.chat_input("ここにかいてね"):
     st.chat_message("user").write(message)
@@ -30,10 +31,10 @@ if message := st.chat_input("ここにかいてね"):
 
     if(person=='あやたん'):
         ai_response = aya_response(st.session_state["chat_messages"])
-        st.chat_message(AYA_NAME,avatar=avator_img_dict[AYA_NAME]).write(ai_response)
+        st.chat_message(AYA_NAME,avatar=avatar_img_dict[AYA_NAME]).write(ai_response)
         st.session_state["chat_messages"].append({"name": AYA_NAME, "content": ai_response})
     elif(person=='だいすけ'):
         ai_response = dai_response(st.session_state["chat_messages"])
-        st.chat_message(DAI_NAME,avatar=avator_img_dict[DAI_NAME]).write(ai_response)
+        st.chat_message(DAI_NAME,avatar=avatar_img_dict[DAI_NAME]).write(ai_response)
         st.session_state["chat_messages"].append({"name": DAI_NAME, "content": ai_response})
 
